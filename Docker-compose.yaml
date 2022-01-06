@@ -1,41 +1,51 @@
 version: "3.8"
 services: 
-  local-mssql:
-   container_name: Local-MsSql
-   image: microsoft/mssql-server-linux:2017-CU13
+  sqlserver:
+   container_name: sqlserver
+   hostname: sqlserver
+   image: mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04
    restart: always
    volumes: 
-    - local-mssql-server-linux-data:/var/opt/mssql/data
+    - type: volume
+      source: mssql
+      target: /var/opt/mssql
    environment: 
     - ACCEPT_EULA=Y
     - SA_PASSWORD=P@ssword
    ports: 
-    - "1434:1433"
-  local-rabbitmq:
-   container_name: Local_RabbitMq
+    - "1433:1433"
+  rabbitmq:
+   container_name: rabbitmq
+   hostname: rabbitmq
    image: rabbitmq:3.8.9-management
    restart: always
    volumes:
-    - local-rabitmq:/var/lib/rabbitmq
-   hostname: rabbitmq
+    - type: volume
+      source: rabbitmq
+      target: /var/lib/rabbitmq
    environment: 
-    - RABBITMQ_DEFAULT_USER=user
+    - RABBITMQ_DEFAULT_USER=sa
     - RABBITMQ_DEFAULT_PASS=P@ssword
    ports:
     - 15672:15672
     - 5672:5672
-  local-redis:
-   container_name: Local_Redis
-   image: "redis:6.0.8"
+  redis:
+   container_name: redis
    hostname: redis
+   image: "redis:6.0.8"
    ports:
     - "6379:6379"
    restart: always 
    volumes:
-    - local-redis-usr-conf:/usr/local/etc/redis/redis.conf
-    - local-redis-data:/data
+    - type: volume
+      source: redis-data
+      target: /data
+    - type: volume
+      source: redis-usr-conf
+      target: /usr/local/etc/redis/redis.conf
 volumes: 
-  local-mssql-server-linux-data:
-  local-redis-usr-conf:
-  local-redis-data:
-  local-rabitmq:
+  mssql:
+  rabbitmq:
+  redis-usr-conf:
+  redis-data:
+
