@@ -1,5 +1,18 @@
 version: "3.8"
 services: 
+  postgresql:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=P@ssword
+    networks: 
+      - local 
   sqlserver:
    container_name: sqlserver
    hostname: sqlserver
@@ -14,6 +27,8 @@ services:
     - SA_PASSWORD=P@ssword
    ports: 
     - "1433:1433"
+   networks: 
+     - local 
   rabbitmq:
    container_name: rabbitmq
    hostname: rabbitmq
@@ -29,6 +44,8 @@ services:
    ports:
     - 15672:15672
     - 5672:5672
+   networks: 
+     - local 
   redis:
    container_name: redis
    hostname: redis
@@ -43,9 +60,15 @@ services:
     - type: volume
       source: redis-usr-conf
       target: /usr/local/etc/redis/redis.conf
+   networks: 
+     - local 
 volumes: 
   mssql:
+  postgresql:
   rabbitmq:
   redis-usr-conf:
   redis-data:
+networks: 
+  local:
+    driver: bridge
 
