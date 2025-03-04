@@ -46,25 +46,6 @@ services:
       - POSTGRES_PASSWORD=P@ssword
     networks: 
       - local 
-  sqlserver:
-   container_name: sqlserver
-   hostname: sqlserver
-   image: mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04
-   restart: always
-   user: root
-   volumes: 
-    - type: volume
-      source: mssql
-      target: /var/opt/mssql
-   environment: 
-    - ACCEPT_EULA=Y
-    - SA_PASSWORD=P@ssword
-    - MSSQL_PID=Express
-    - MSSQL_TCP_PORT=1433
-   ports: 
-    - "1433:1433"
-   networks: 
-     - local 
   rabbitmq:
    container_name: rabbitmq
    hostname: rabbitmq
