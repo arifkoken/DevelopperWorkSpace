@@ -98,14 +98,6 @@ services:
       target: /usr/local/etc/redis/redis.conf
    networks: 
      - local 
-  redisinsight:
-    container_name: redis-insight
-    image: 'redislabs/redisinsight'
-    restart: always
-    ports:
-      - 8001:8001
-    networks: 
-     - local 
 volumes: 
   mongo-configdb:
   mongo-db:
